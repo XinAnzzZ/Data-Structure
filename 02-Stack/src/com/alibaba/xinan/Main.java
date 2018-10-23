@@ -6,7 +6,7 @@ import java.util.*;
  * 括号校验算法
  *
  * @author XinAnzzZ
- * @date 2018/10/21 0021 21:05
+ * @date 2018/10/21 21:05
  */
 public class Main {
 

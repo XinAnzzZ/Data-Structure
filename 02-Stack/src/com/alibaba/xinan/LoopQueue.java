@@ -4,7 +4,7 @@ package com.alibaba.xinan;
  * 循环队列
  *
  * @author XinAnzzZ
- * @date 2018/10/21 0021 23:05
+ * @date 2018/10/21 23:05
  */
 public class LoopQueue<E> implements Queue<E> {
 
@@ -120,8 +120,7 @@ public class LoopQueue<E> implements Queue<E> {
             System.out.println(loopQueue);
 
             if (i % 3 == 2) {
-                loopQueue.dequeue();
-                System.out.println(loopQueue);
+                System.out.println(loopQueue.dequeue());
             }
         }
     }

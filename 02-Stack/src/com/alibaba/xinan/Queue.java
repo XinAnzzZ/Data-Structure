@@ -2,7 +2,7 @@ package com.alibaba.xinan;
 
 /**
  * @author XinAnzzZ
- * @date 2018/10/21 0021 23:05
+ * @date 2018/10/21 23:05
  */
 public interface Queue<E> {
 

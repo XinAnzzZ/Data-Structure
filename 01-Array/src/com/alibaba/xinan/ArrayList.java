@@ -2,7 +2,7 @@ package com.alibaba.xinan;
 
 /**
  * @author XinAnzzZ
- * @date 2018/10/5 0005 10:29
+ * @date 2018/10/5 10:29
  */
 public class ArrayList<E> {
 

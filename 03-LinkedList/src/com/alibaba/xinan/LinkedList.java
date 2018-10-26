@@ -123,8 +123,8 @@ public class LinkedList<E> {
             throw new IllegalArgumentException("Remove Failed. Illegal index.");
         }
 
-        Node current = dummyHead.next;
-        for (int i = 0; i < index - 1; i++) {
+        Node current = dummyHead;
+        for (int i = 0; i < index; i++) {
             current = current.next;
         }
         Node target = current.next;
@@ -168,6 +168,6 @@ public class LinkedList<E> {
             System.out.println(linkedList);
         }
 
-        System.out.println(linkedList.remove(1));
+        System.out.println(linkedList.remove(2));
     }
 }

@@ -1,7 +1,7 @@
 package com.alibaba.xinan;
 
 /**
- * LeetCode Question no.203 solution
+ * LeetCode no.203 Question solution
  *
  * @author XinAnzzZ
  * @date 2018/10/26 13:54

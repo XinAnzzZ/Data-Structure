@@ -36,19 +36,60 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
     public void add(E e) {
-        addElement(root, new Node(e));
+        addElement(root, e);
     }
 
-    private Node addElement(Node root, Node node) {
-        if (root == null) {
+    /**
+     * 在 node 节点的位置插入一个元素 e
+     *
+     * @param node the node
+     * @param e    the element
+     * @return the new node
+     */
+    private Node addElement(Node node, E e) {
+        if (node == null) {
             size++;
-            return node;
+            return new Node(e);
         }
-        if (root.left.e.compareTo(node.e) > 0) {
-            root.right = addElement(root.right, node);
-        } else if (root.left.e.compareTo(node.e) < 0) {
-            root.left = addElement(root.left, node);
+
+        if (e.compareTo(node.e) > 0) {
+            node.right = addElement(node.right, e);
+        } else if (e.compareTo(node.e) < 0) {
+            node.left = addElement(node.left, e);
         }
-        return root;
+
+        return node;
+    }
+
+    public boolean contains(E e) {
+        return contains(root, e);
+    }
+
+    private boolean contains(Node node, E e) {
+        if (node == null) {
+            return false;
+        }
+
+        if (e.compareTo(node.e) > 0) {
+            return contains(node.right, e);
+        } else if (e.compareTo(node.e) < 0) {
+            return contains(node.left, e);
+        }
+
+        return true;
+    }
+
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    private void preOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        System.out.println(node.e);
+        preOrder(node.right);
+        preOrder(node.left);
     }
 }

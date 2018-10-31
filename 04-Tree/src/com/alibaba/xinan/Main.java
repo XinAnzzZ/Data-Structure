@@ -15,5 +15,8 @@ public class Main {
         System.out.println(tree.contains(5));
         System.out.println(tree.contains(3));
         tree.preOrder();
+
+        System.out.println();
+        tree.postOrder();
     }
 }

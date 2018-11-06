@@ -1,5 +1,8 @@
 package com.alibaba.xinan;
 
+import java.util.LinkedList;
+import java.util.Stack;
+
 /**
  * @author XinAnzzZ
  * @date 2018/10/29 17:31
@@ -82,6 +85,50 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
 
         return true;
+    }
+
+    /**
+     * 深度优先搜索，需要借用基础数据结构：栈
+     */
+    public void depthFirstSearch() {
+        if (root == null) {
+            return;
+        }
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            root = stack.pop();
+            System.out.println(root);
+            if (root.right != null) {
+                stack.push(root.right);
+            }
+            if (root.left != null) {
+                stack.push(root.left);
+            }
+        }
+    }
+
+    /**
+     * 广度优先搜索：需要借助基础数据结构：队列
+     */
+    public void breadthFirstSearch() {
+        if (root == null) {
+            return;
+        }
+
+        LinkedList<Node> list = new LinkedList<>();
+        list.addLast(root);
+        while (!list.isEmpty()) {
+            root = list.removeFirst();
+            System.out.println(root);
+            if (root.left != null) {
+                list.addLast(root.left);
+            }
+            if (root.right != null) {
+                list.addLast(root.right);
+            }
+        }
     }
 
     /**

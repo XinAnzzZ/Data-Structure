@@ -7,16 +7,11 @@ package com.alibaba.xinan;
 public class Main {
 
     public static void main(String[] args) {
-        int[] arr = {5, 8, 9, 4, 2};
+        int[] arr = {20, 10, 30, 5, 17, 28, 32, 34, 29, 18, 13, 8, 3, 9, 11};
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
         for (int i : arr) {
             tree.add(i);
         }
-        System.out.println(tree.contains(5));
-        System.out.println(tree.contains(3));
-        tree.preOrder();
-
-        System.out.println();
-        tree.postOrder();
+        tree.breadthFirstSearch();
     }
 }

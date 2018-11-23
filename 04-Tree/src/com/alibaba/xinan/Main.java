@@ -12,6 +12,8 @@ public class Main {
         for (int i : arr) {
             tree.add(i);
         }
-        tree.breadthFirstSearch();
+//        tree.depthFirstSearch();
+        System.out.println(tree.getMin());
+        System.out.println(tree.getMax());
     }
 }

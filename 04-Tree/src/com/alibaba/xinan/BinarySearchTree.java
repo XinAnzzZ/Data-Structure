@@ -7,6 +7,7 @@ import java.util.Stack;
  * @author XinAnzzZ
  * @date 2018/10/29 17:31
  */
+@SuppressWarnings("unused")
 public class BinarySearchTree<E extends Comparable<E>> {
 
     private class Node {
@@ -47,13 +48,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         root = addElement(root, e);
     }
 
-    /**
-     * 在 node 节点的位置插入一个元素 e
-     *
-     * @param node the node
-     * @param e    the element
-     * @return the new node
-     */
+    /*** 在 node 节点的位置插入一个元素 e */
     private Node addElement(Node node, E e) {
         if (node == null) {
             size++;
@@ -87,9 +82,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return true;
     }
 
-    /**
-     * 深度优先搜索，需要借用基础数据结构：栈
-     */
+    /*** 深度优先搜索，和前序遍历结果一致，需要借用基础数据结构：栈 */
     public void depthFirstSearch() {
         if (root == null) {
             return;
@@ -109,9 +102,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
     }
 
-    /**
-     * 广度优先搜索：需要借助基础数据结构：队列
-     */
+    /*** 广度优先搜索：需要借助基础数据结构：队列 */
     public void breadthFirstSearch() {
         if (root == null) {
             return;
@@ -131,9 +122,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
     }
 
-    /**
-     * 前序遍历
-     */
+    /*** 前序遍历 */
     public void preOrder() {
         preOrder(root);
     }
@@ -148,9 +137,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         preOrder(node.right);
     }
 
-    /**
-     * 中序遍历
-     */
+    /*** 中序遍历 */
     public void inOrder() {
         inOrder(root);
     }
@@ -165,9 +152,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         inOrder(node.right);
     }
 
-    /**
-     * 后序遍历
-     */
+    /*** 后序遍历 */
     public void postOrder() {
         postOrder(root);
     }
@@ -180,5 +165,40 @@ public class BinarySearchTree<E extends Comparable<E>> {
         postOrder(node.left);
         postOrder(node.right);
         System.out.println(node);
+    }
+
+    /*** 得到最小元素 */
+    public E getMin() {
+        if (size == 0) {
+            throw new IllegalArgumentException("The tree is empty !");
+        }
+        Node node = root;
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node.e;
+    }
+
+    /*** 得到最大元素 */
+    public E getMax() {
+        if (size == 0) {
+            throw new IllegalArgumentException("The tree is empty !");
+        }
+        Node node = root;
+        while (node.right != null) {
+            node = node.right;
+        }
+        return node.e;
+    }
+
+    /*** 删除最小元素 */
+    public E removeMin() {
+
+        return null;
+    }
+
+    /*** 删除最大元素 */
+    public E removeMax() {
+        return null;
     }
 }

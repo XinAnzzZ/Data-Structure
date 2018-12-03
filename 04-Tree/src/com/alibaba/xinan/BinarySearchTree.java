@@ -193,12 +193,46 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     /*** 删除最小元素 */
     public E removeMin() {
+        E min = getMin();
+        root = removeMin(root);
+        return min;
+    }
 
-        return null;
+    /*** 删掉以node为根的二分搜索树中的最小节点，返回删除节点后新的二分搜索树的根 */
+    private Node removeMin(Node node) {
+
+        // 终止条件
+        if (node.left == null) {
+            // 如果左孩子为null，说明当前节点就是二分搜索树的最小节点，那么删除这个节点即可。
+            // 但是这个节点可能还有右子树，所以我们需要将当前节点的右子树保存起来，删掉当前节点只有再放到原来的树上
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+
+        // 注意，前面这个node和后面的node不是同一个node，后面的node是前面node的孩子。
+        node.left = removeMin(node.left);
+        return node;
     }
 
     /*** 删除最大元素 */
     public E removeMax() {
-        return null;
+        E max = getMax();
+        root = removeMax(root);
+        return max;
+    }
+
+    private Node removeMax(Node node) {
+
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
     }
 }

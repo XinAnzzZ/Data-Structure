@@ -15,7 +15,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
         Node left, right;
 
-        public Node(E e) {
+        private Node(E e) {
             this.e = e;
             this.left = null;
             this.right = null;
@@ -205,10 +205,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         if (node.left == null) {
             // 如果左孩子为null，说明当前节点就是二分搜索树的最小节点，那么删除这个节点即可。
             // 但是这个节点可能还有右子树，所以我们需要将当前节点的右子树保存起来，删掉当前节点只有再放到原来的树上
-            Node rightNode = node.right;
-            node.right = null;
-            size--;
-            return rightNode;
+            return removeRight(node);
         }
 
         // 注意，前面这个node和后面的node不是同一个node，后面的node是前面node的孩子。
@@ -226,13 +223,79 @@ public class BinarySearchTree<E extends Comparable<E>> {
     private Node removeMax(Node node) {
 
         if (node.right == null) {
-            Node leftNode = node.left;
-            node.left = null;
-            size--;
-            return leftNode;
+            return removeLeft(node);
         }
 
         node.right = removeMax(node.right);
         return node;
+    }
+
+    /*** 从树中删除元素为e的节点 */
+    public void remove(E e) {
+        root = remove(root, e);
+    }
+
+    /*** 删除以node为根的二分搜索树中的值为e的节点，返回删除节点后新的二分搜索树的根 */
+    private Node remove(Node node, E e) {
+        if (node == null)
+            throw new IllegalArgumentException("The element you want to remove doesn't exist !");
+
+        if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+            return node;
+        }
+        if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        }
+
+        // 找到了要删除的元素
+
+        // 只有右子树
+        if (node.left == null)
+            return removeRight(node);
+
+        // 只有左子树
+        if (node.right == null)
+            return removeLeft(node);
+
+        // 既有右子树又有左子树
+        return removeMiddle(node);
+    }
+
+    private Node removeMiddle(Node node) {
+        Node rightNode = node.right;
+        Node leftNode = node.left;
+
+        node.left = null;
+        node.right = null;
+        // 这里不应该size--，因为在下面的removeMin(rightNode)中进行了一次size--
+        // size--;
+
+        // 找到右子树中的最小值，也就是后继
+        Node successor = rightNode;
+        while (successor.left != null) {
+            successor = successor.left;
+        }
+        // 删除右子树最小值
+        rightNode = removeMin(rightNode);
+
+        successor.right = rightNode;
+        successor.left = leftNode;
+        return successor;
+    }
+
+    private Node removeLeft(Node node) {
+        Node leftNode = node.left;
+        node.left = null;
+        size--;
+        return leftNode;
+    }
+
+    private Node removeRight(Node node) {
+        Node rightNode = node.right;
+        node.right = null;
+        size--;
+        return rightNode;
     }
 }

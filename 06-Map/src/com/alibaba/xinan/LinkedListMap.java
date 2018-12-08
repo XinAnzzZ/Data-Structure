@@ -91,7 +91,7 @@ public class LinkedListMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     private Node getNode(K key) {

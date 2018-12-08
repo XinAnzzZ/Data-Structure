@@ -237,8 +237,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     /*** 删除以node为根的二分搜索树中的值为e的节点，返回删除节点后新的二分搜索树的根 */
     private Node remove(Node node, E e) {
-        if (node == null)
+        if (node == null) {
             throw new IllegalArgumentException("The element you want to remove doesn't exist !");
+        }
 
         if (e.compareTo(node.e) > 0) {
             node.right = remove(node.right, e);
@@ -252,12 +253,14 @@ public class BinarySearchTree<E extends Comparable<E>> {
         // 找到了要删除的元素
 
         // 只有右子树
-        if (node.left == null)
+        if (node.left == null) {
             return removeRight(node);
+        }
 
         // 只有左子树
-        if (node.right == null)
+        if (node.right == null) {
             return removeLeft(node);
+        }
 
         // 既有右子树又有左子树
         return removeMiddle(node);

@@ -10,16 +10,16 @@ We should like you to write a command-line based RPN calculator.
 
 · The calculator has a stack that can contain real numbers.
 
-· The calculator waits for use input and expects to receive string s containing
+· The calculator waits for use input and expects to receive strings containing
 whitespace separated lists of numbers and operators.
 
-· Numbers are pushed on to ths stack. Operators operate on numbers that are on the stack
+· Numbers are pushed on to ths stack. Operators operate on numbers that are on the stack.
 
 · Available operators are +,-,*,/,sqrt,undo,clear
 
 · Operators pop their parameters off the stack, and push their results back into the stack.
 
-· The 'clear' operator removes all items from the stack
+· The 'clear' operator removes all items from the stack.
 
 · The 'undo' operator undoes the previous operation. "undo undo" will undo the previous two operators.
 
@@ -31,7 +31,7 @@ on the top two items from stack.
 · All numbers should be formatted as plain decimal strings (ie. no engineering formatting).
 
 · If an operator cannot find a sufficient number of parameters on the stack, a waining is displayed:
-operator <operator>(position:<pos>):insufficient parameters
+operator <operator>(position:<pos>):insufficient parameters.
 
 · After displaying the warning, all further processing of the string terminates and the current state
 of the stack is displayed.
@@ -42,7 +42,7 @@ of the stack is displayed.
 · The solution submitted should include structure, source code, configuration and any tests or test
 code you deem necessary - no need to package class files.
 
-· The solution submitted should use OO idea as possible as you can
+· The solution submitted should use OO idea as possible as you can.
 
 · Solve the problem in Java, C# or in a specific language the you may have been directed to use.
 

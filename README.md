@@ -4,6 +4,7 @@
 
 1. 模块 05-Set 依赖 03-LinkedList 和 04-Tree
 2. 模块 06-Map 依赖 04-Tree
+3. 模块 07-MaxHeap 依赖 02-Stack
 
 idea用户进行模块间依赖管理请执行如下操作：
 

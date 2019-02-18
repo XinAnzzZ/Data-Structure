@@ -7,21 +7,21 @@ package com.alibaba.xinan;
 public interface Queue<E> {
 
     /**
-     * add an element to the queue
+     * inserts the element into the queue
      *
-     * @param e the element to added
+     * @param e the element to add
      */
     void enqueue(E e);
 
     /**
-     * remove an element in the queue
+     * remove the head of this queue
      *
      * @return the has been removed element
      */
     E dequeue();
 
     /**
-     * get the element at front of the queue
+     * get the head of this queue
      *
      * @return the element at front of the queue
      */

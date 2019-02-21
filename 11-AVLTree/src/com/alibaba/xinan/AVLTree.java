@@ -115,12 +115,31 @@ public class AVLTree<K extends Comparable<K>, V> {
 
         // 维护平衡
         int balanceFactor = getBalanceFactor(node);
+
+        // LL
         if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
             // 右旋转
             return rightRotate(node);
         }
 
+        // LR
+        if (balanceFactor > 1 && getBalanceFactor(node.left) < 0) {
+            // 先对当前节点的左孩子进行左旋转转变为LL，然后在进行右旋转
+            node.left = leftRotate(node.left);
+            // 右旋转
+            return rightRotate(node);
+        }
+
+        // RR
         if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
+            // 左旋转
+            return leftRotate(node);
+        }
+
+        //RL
+        if (balanceFactor < -1 && getBalanceFactor(node.right) > 0) {
+            // 先对当前节点的右孩子进行右旋转转变为RR，然后在进行左旋转
+            node.right = rightRotate(node.right);
             // 左旋转
             return leftRotate(node);
         }
@@ -128,7 +147,18 @@ public class AVLTree<K extends Comparable<K>, V> {
         return node;
     }
 
-    /*** 左旋转，和右旋转相反 */
+    /**
+     * RR
+     * <p>
+     * / 对节点进行左旋转操作，返回左旋转之后新的根节点
+     * /        y                            x
+     * /       / \                         /   \
+     * /      T1  x     向右旋转(y)       y     z
+     * /         / \    -------------->  / \   / \
+     * /        T2  z                   T1 T2 T3 T4
+     * /           / \
+     * /          T3 T4
+     */
     private Node leftRotate(Node y) {
         Node x = y.right;
         Node t2 = x.left;
@@ -144,6 +174,8 @@ public class AVLTree<K extends Comparable<K>, V> {
     }
 
     /**
+     * LL
+     *
      * / 对节点进行右旋转操作，返回右旋转之后新的根节点
      * /        y                            x
      * /       / \                         /   \
@@ -186,77 +218,77 @@ public class AVLTree<K extends Comparable<K>, V> {
         return null;
     }
 
-    public V remove(K key) {
-        Node node = getNode(root, key);
-        if (node == null) {
-            return null;
-        }
-        root = remove(root, key);
-        return node.value;
-    }
-
-    private Node remove(Node node, K key) {
-        if (node == null) {
-            return null;
-        }
-
-        if (node.key.compareTo(key) > 0) {
-            node.left = remove(node.left, key);
-        }
-        if (node.key.compareTo(key) < 0) {
-            node.right = remove(node.right, key);
-        }
-
-        // 当前node即为目标node，删除当前node即可
-        // 右子树为空
-        if (node.right == null) {
-            Node leftNode = node.left;
-            node.left = null;
-            size--;
-            return leftNode;
-        }
-
-        // 左子树为空
-        if (node.left == null) {
-            return removeRight(node);
-        }
-
-        // 左右子树都不为空，找到前驱或者后继进行替换
-        Node leftNode = node.left;
-        Node rightNode = node.right;
-        node.left = null;
-        node.right = null;
-
-        Node successor = rightNode;
-        while (successor.left != null) {
-            successor = successor.left;
-        }
-
-        rightNode = removeMin(rightNode);
-
-        successor.left = leftNode;
-        successor.right = rightNode;
-        return successor;
-    }
-
-    private Node removeRight(Node node) {
-        Node rightNode = node.right;
-        node.right = null;
-        size--;
-        return rightNode;
-    }
-
-    private Node removeMin(Node node) {
-        if (node.left == null) {
-            Node rightNode = node.right;
-            node.right = null;
-            size--;
-            return rightNode;
-        }
-
-        node.left = removeMin(node.left);
-        return node;
-    }
+    // public V remove(K key) {
+    //     Node node = getNode(root, key);
+    //     if (node == null) {
+    //         return null;
+    //     }
+    //     root = remove(root, key);
+    //     return node.value;
+    // }
+    //
+    // private Node remove(Node node, K key) {
+    //     if (node == null) {
+    //         return null;
+    //     }
+    //
+    //     if (node.key.compareTo(key) > 0) {
+    //         node.left = remove(node.left, key);
+    //     }
+    //     if (node.key.compareTo(key) < 0) {
+    //         node.right = remove(node.right, key);
+    //     }
+    //
+    //     // 当前node即为目标node，删除当前node即可
+    //     // 右子树为空
+    //     if (node.right == null) {
+    //         Node leftNode = node.left;
+    //         node.left = null;
+    //         size--;
+    //         return leftNode;
+    //     }
+    //
+    //     // 左子树为空
+    //     if (node.left == null) {
+    //         return removeRight(node);
+    //     }
+    //
+    //     // 左右子树都不为空，找到前驱或者后继进行替换
+    //     Node leftNode = node.left;
+    //     Node rightNode = node.right;
+    //     node.left = null;
+    //     node.right = null;
+    //
+    //     Node successor = rightNode;
+    //     while (successor.left != null) {
+    //         successor = successor.left;
+    //     }
+    //
+    //     rightNode = removeMin(rightNode);
+    //
+    //     successor.left = leftNode;
+    //     successor.right = rightNode;
+    //     return successor;
+    // }
+    //
+    // private Node removeRight(Node node) {
+    //     Node rightNode = node.right;
+    //     node.right = null;
+    //     size--;
+    //     return rightNode;
+    // }
+    //
+    // private Node removeMin(Node node) {
+    //     if (node.left == null) {
+    //         Node rightNode = node.right;
+    //         node.right = null;
+    //         size--;
+    //         return rightNode;
+    //     }
+    //
+    //     node.left = removeMin(node.left);
+    //     return node;
+    // }
 
     public int size() {
         return size;

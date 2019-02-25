@@ -175,7 +175,7 @@ public class AVLTree<K extends Comparable<K>, V> {
 
     /**
      * LL
-     *
+     * <p>
      * / 对节点进行右旋转操作，返回右旋转之后新的根节点
      * /        y                            x
      * /       / \                         /   \
@@ -193,7 +193,7 @@ public class AVLTree<K extends Comparable<K>, V> {
         x.right = y;
         y.left = t3;
 
-        //更新height
+        // 更新height
         y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
         x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
         return x;
@@ -218,77 +218,78 @@ public class AVLTree<K extends Comparable<K>, V> {
         return null;
     }
 
-    // public V remove(K key) {
-    //     Node node = getNode(root, key);
-    //     if (node == null) {
-    //         return null;
-    //     }
-    //     root = remove(root, key);
-    //     return node.value;
-    // }
-    //
-    // private Node remove(Node node, K key) {
-    //     if (node == null) {
-    //         return null;
-    //     }
-    //
-    //     if (node.key.compareTo(key) > 0) {
-    //         node.left = remove(node.left, key);
-    //     }
-    //     if (node.key.compareTo(key) < 0) {
-    //         node.right = remove(node.right, key);
-    //     }
-    //
-    //     // 当前node即为目标node，删除当前node即可
-    //     // 右子树为空
-    //     if (node.right == null) {
-    //         Node leftNode = node.left;
-    //         node.left = null;
-    //         size--;
-    //         return leftNode;
-    //     }
-    //
-    //     // 左子树为空
-    //     if (node.left == null) {
-    //         return removeRight(node);
-    //     }
-    //
-    //     // 左右子树都不为空，找到前驱或者后继进行替换
-    //     Node leftNode = node.left;
-    //     Node rightNode = node.right;
-    //     node.left = null;
-    //     node.right = null;
-    //
-    //     Node successor = rightNode;
-    //     while (successor.left != null) {
-    //         successor = successor.left;
-    //     }
-    //
-    //     rightNode = removeMin(rightNode);
-    //
-    //     successor.left = leftNode;
-    //     successor.right = rightNode;
-    //     return successor;
-    // }
-    //
-    // private Node removeRight(Node node) {
-    //     Node rightNode = node.right;
-    //     node.right = null;
-    //     size--;
-    //     return rightNode;
-    // }
-    //
-    // private Node removeMin(Node node) {
-    //     if (node.left == null) {
-    //         Node rightNode = node.right;
-    //         node.right = null;
-    //         size--;
-    //         return rightNode;
-    //     }
-    //
-    //     node.left = removeMin(node.left);
-    //     return node;
-    // }
+    public V remove(K key) {
+        Node node = getNode(root, key);
+        if (node == null) {
+            return null;
+        }
+        root = remove(root, key);
+        return node.value;
+    }
+
+    private Node remove(Node node, K key) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.key.compareTo(key) > 0) {
+            node.left = remove(node.left, key);
+
+        }
+        if (node.key.compareTo(key) < 0) {
+            node.right = remove(node.right, key);
+        }
+
+        // 当前node即为目标node，删除当前node即可
+        // 右子树为空
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+
+        // 左子树为空
+        if (node.left == null) {
+            return removeRight(node);
+        }
+
+        // 左右子树都不为空，找到前驱或者后继进行替换
+        Node leftNode = node.left;
+        Node rightNode = node.right;
+        node.left = null;
+        node.right = null;
+
+        Node successor = rightNode;
+        while (successor.left != null) {
+            successor = successor.left;
+        }
+
+        rightNode = removeMin(rightNode);
+
+        successor.left = leftNode;
+        successor.right = rightNode;
+        return successor;
+    }
+
+    private Node removeRight(Node node) {
+        Node rightNode = node.right;
+        node.right = null;
+        size--;
+        return rightNode;
+    }
+
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
 
     public int size() {
         return size;

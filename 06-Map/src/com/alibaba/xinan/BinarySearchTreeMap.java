@@ -89,11 +89,15 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V> implements Map<K, V
             return null;
         }
 
+        //
+        Node returnNode;
         if (node.key.compareTo(key) > 0) {
             node.left = remove(node.left, key);
+            return node;
         }
         if (node.key.compareTo(key) < 0) {
             node.right = remove(node.right, key);
+            return node;
         }
 
         // 当前node即为目标node，删除当前node即可

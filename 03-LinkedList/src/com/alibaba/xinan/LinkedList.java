@@ -7,22 +7,22 @@ package com.alibaba.xinan;
 @SuppressWarnings("unused")
 public class LinkedList<E> {
 
-    private class Node {
+    class Node {
 
         Node next;
 
         E e;
 
-        public Node(Node next, E e) {
+        Node(Node next, E e) {
             this.next = next;
             this.e = e;
         }
 
-        public Node(E e) {
+        Node(E e) {
             this(null, e);
         }
 
-        public Node() {
+        Node() {
             this(null, null);
         }
 
@@ -36,7 +36,7 @@ public class LinkedList<E> {
 
     private int size;
 
-    public LinkedList() {
+    LinkedList() {
         dummyHead = new Node(null, null);
         size = 0;
     }

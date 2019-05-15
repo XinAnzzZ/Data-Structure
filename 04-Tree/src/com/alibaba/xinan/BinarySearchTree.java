@@ -1,24 +1,21 @@
 package com.alibaba.xinan;
 
-import java.util.LinkedList;
-import java.util.Stack;
 
 /**
+ * 二分搜索树
+ *
  * @author XinAnzzZ
- * @date 2018/10/29 17:31
+ * @since 2019-05-15
  */
 @SuppressWarnings("unused")
 public class BinarySearchTree<E extends Comparable<E>> {
 
-    private class Node {
+    class Node {
+        Node left, right;
         E e;
 
-        Node left, right;
-
-        private Node(E e) {
+        Node(E e) {
             this.e = e;
-            this.left = null;
-            this.right = null;
         }
 
         @Override
@@ -31,39 +28,72 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     private int size;
 
-    public BinarySearchTree() {
-        this.root = null;
-        this.size = 0;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
+    /**
+     * 向树中添加一个元素，若元素已存在，则不插入 -- 非递归写法
+     */
     public void add(E e) {
+        if (root == null) {
+            root = new Node(e);
+            size++;
+            return;
+        }
+
+        Node current = this.root;
+        for (; ; ) {
+            if (e.compareTo(current.e) < 0) {
+                if (current.left != null) {
+                    current = current.left;
+                    continue;
+                }
+                current.left = new Node(e);
+                size++;
+                return;
+            } else if (e.compareTo(current.e) > 0) {
+                if (current.right != null) {
+                    current = current.right;
+                    continue;
+                }
+                current.right = new Node(e);
+                size++;
+                return;
+            } else {
+                // 元素存在则不添加
+                return;
+            }
+        }
+    }
+
+    /**
+     * 向树中添加一个节点，若元素已存在，则不插入 -- 递归写法
+     */
+    public void addRecursive(E e) {
         root = addElement(root, e);
     }
 
-    /*** 在 node 节点的位置插入一个元素 e */
+    /**
+     * 向给定节点中添加元素 e，返回节点的根
+     *
+     * @param node 要添加元素的节点
+     * @param e    要添加的元素
+     * @return 添加完成后的根节点
+     */
     private Node addElement(Node node, E e) {
         if (node == null) {
             size++;
             return new Node(e);
         }
 
-        if (e.compareTo(node.e) > 0) {
-            node.right = addElement(node.right, e);
-        } else if (e.compareTo(node.e) < 0) {
+        if (e.compareTo(node.e) < 0) {
             node.left = addElement(node.left, e);
+        } else {
+            node.right = addElement(node.right, e);
         }
-
         return node;
     }
 
+    /**
+     * 查询是否包含元素 e
+     */
     public boolean contains(E e) {
         return contains(root, e);
     }
@@ -73,232 +103,134 @@ public class BinarySearchTree<E extends Comparable<E>> {
             return false;
         }
 
-        if (e.compareTo(node.e) > 0) {
-            return contains(node.right, e);
-        } else if (e.compareTo(node.e) < 0) {
+        if (e.compareTo(node.e) < 0) {
             return contains(node.left, e);
-        }
-
-        return true;
-    }
-
-    /*** 深度优先搜索，和前序遍历结果一致，需要借用基础数据结构：栈 */
-    public void depthFirstSearch() {
-        if (root == null) {
-            return;
-        }
-
-        Stack<Node> stack = new Stack<>();
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            root = stack.pop();
-            System.out.println(root);
-            if (root.right != null) {
-                stack.push(root.right);
-            }
-            if (root.left != null) {
-                stack.push(root.left);
-            }
+        } else if (e.compareTo(node.e) > 0) {
+            return contains(node.right, e);
+        } else {
+            return true;
         }
     }
 
-    /*** 广度优先搜索：需要借助基础数据结构：队列 */
-    public void breadthFirstSearch() {
-        if (root == null) {
-            return;
-        }
-
-        LinkedList<Node> list = new LinkedList<>();
-        list.addLast(root);
-        while (!list.isEmpty()) {
-            root = list.removeFirst();
-            System.out.println(root);
-            if (root.left != null) {
-                list.addLast(root.left);
-            }
-            if (root.right != null) {
-                list.addLast(root.right);
-            }
-        }
-    }
-
-    /*** 前序遍历 */
-    public void preOrder() {
-        preOrder(root);
-    }
-
-    private void preOrder(Node node) {
-        if (node == null) {
-            return;
-        }
-
-        System.out.println(node.e);
-        preOrder(node.left);
-        preOrder(node.right);
-    }
-
-    /*** 中序遍历 */
-    public void inOrder() {
-        inOrder(root);
-    }
-
-    private void inOrder(Node node) {
-        if (node == null) {
-            return;
-        }
-
-        inOrder(node.left);
-        System.out.println(node);
-        inOrder(node.right);
-    }
-
-    /*** 后序遍历 */
-    public void postOrder() {
-        postOrder(root);
-    }
-
-    private void postOrder(Node node) {
-        if (node == null) {
-            return;
-        }
-
-        postOrder(node.left);
-        postOrder(node.right);
-        System.out.println(node);
-    }
-
-    /*** 得到最小元素 */
-    public E getMin() {
-        if (size == 0) {
-            throw new IllegalArgumentException("The tree is empty !");
-        }
-        Node node = root;
-        while (node.left != null) {
-            node = node.left;
-        }
-        return node.e;
-    }
-
-    /*** 得到最大元素 */
-    public E getMax() {
-        if (size == 0) {
-            throw new IllegalArgumentException("The tree is empty !");
-        }
-        Node node = root;
-        while (node.right != null) {
-            node = node.right;
-        }
-        return node.e;
-    }
-
-    /*** 删除最小元素 */
-    public E removeMin() {
-        E min = getMin();
-        root = removeMin(root);
-        return min;
-    }
-
-    /*** 删掉以node为根的二分搜索树中的最小节点，返回删除节点后新的二分搜索树的根 */
-    private Node removeMin(Node node) {
-
-        // 终止条件
-        if (node.left == null) {
-            // 如果左孩子为null，说明当前节点就是二分搜索树的最小节点，那么删除这个节点即可。
-            // 但是这个节点可能还有右子树，所以我们需要将当前节点的右子树保存起来，删掉当前节点只有再放到原来的树上
-            return removeRight(node);
-        }
-
-        // 注意，前面这个node和后面的node不是同一个node，后面的node是前面node的孩子。
-        node.left = removeMin(node.left);
-        return node;
-    }
-
-    /*** 删除最大元素 */
-    public E removeMax() {
-        E max = getMax();
-        root = removeMax(root);
-        return max;
-    }
-
-    private Node removeMax(Node node) {
-
-        if (node.right == null) {
-            return removeLeft(node);
-        }
-
-        node.right = removeMax(node.right);
-        return node;
-    }
-
-    /*** 从树中删除元素为e的节点 */
+    /**
+     * 从树中删除元素 e
+     */
     public void remove(E e) {
         root = remove(root, e);
     }
 
-    /*** 删除以node为根的二分搜索树中的值为e的节点，返回删除节点后新的二分搜索树的根 */
+    /**
+     * 从已 node 为根的树中删除元素为 e 的节点，并且返回新的树的根
+     *
+     * @param node 要删除的树的根节点
+     * @param e    要删除的节点的元素
+     * @return 删除后新的树的根
+     */
     private Node remove(Node node, E e) {
         if (node == null) {
-            throw new IllegalArgumentException("The element you want to remove doesn't exist !");
+            throw new IllegalArgumentException("要删除的元素不存在！");
         }
 
+        // 如果要删除的节点比当前节点小，说明要删除的节点在左子树中
+        if (e.compareTo(node.e) < 0) {
+            // 从左子树删除，并且将删除后得到的新的树挂在当前节点在左边
+            node.left = remove(node.left, e);
+            // 返回删除后的树的根
+            return node;
+        }
+
+        // 要删除的节点在右子树中
         if (e.compareTo(node.e) > 0) {
+            // 从右子树中删除，并且将删除后得到的新的子树挂在当前节点的右边
             node.right = remove(node.right, e);
             return node;
         }
-        if (e.compareTo(node.e) < 0) {
-            node.left = remove(node.left, e);
-            return node;
-        }
 
-        // 找到了要删除的元素
+        // 如果走到这里，说明 e.compareTo(node.e) = true，即当前节点就是要删除的节点
 
-        // 只有右子树
+        // 如果当前节点的左子树为空，说明要删除的节点是以（当前节点为根的子树）中的最小值
         if (node.left == null) {
-            return removeRight(node);
+            return removeMin(node);
         }
 
-        // 只有左子树
+        // 如果右子树为空，说明要删除的节点是（当前节点为根的子树）中的最大值
         if (node.right == null) {
-            return removeLeft(node);
+            return removeMax(node);
         }
 
-        // 既有右子树又有左子树
-        return removeMiddle(node);
+        // 左右子树都不为空，找到前驱或者后继来替代当前节点，这里使用前驱
+        Node predecessor = getMax(node.left);
+
+        // 将删除前驱后的左子树和右子树挂在前驱上，并且返回前驱
+        predecessor.left = removeMax(node.left);
+        predecessor.right = node.right;
+        return predecessor;
     }
 
-    private Node removeMiddle(Node node) {
-        Node rightNode = node.right;
-        Node leftNode = node.left;
-
-        node.left = null;
-        node.right = null;
-        // 这里不应该size--，因为在下面的removeMin(rightNode)中进行了一次size--
-        // size--;
-
-        // 找到右子树中的最小值，也就是后继
-        Node successor = rightNode;
-        while (successor.left != null) {
-            successor = successor.left;
+    /**
+     * 从以 node 为根的二叉树中删除最小节点
+     */
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            size--;
+            return node.right;
         }
-        // 删除右子树最小值
-        rightNode = removeMin(rightNode);
-
-        successor.right = rightNode;
-        successor.left = leftNode;
-        return successor;
+        node.left = removeMin(node.left);
+        return node;
     }
 
-    private Node removeLeft(Node node) {
-        Node leftNode = node.left;
-        node.left = null;
-        size--;
-        return leftNode;
+    /**
+     * 从以 node 为根的二叉树中删除最大节点
+     */
+    private Node removeMax(Node node) {
+        if (node.right == null) {
+            size--;
+            return node.left;
+        }
+        return null;
     }
 
-    private Node removeRight(Node node) {
-        Node rightNode = node.right;
-        node.right = null;
-        size--;
-        return rightNode;
+    /**
+     * 从以 node 为根的二叉树中找到元素值最小的节点
+     */
+    private Node getMin(Node node) {
+
+        if (node == null) {
+            throw new IllegalArgumentException("根节点为空，不存在最小节点！");
+        }
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+
+    /**
+     * 从以 node 为根的二叉树中找到元素值最大的节点
+     */
+    private Node getMax(Node node) {
+        if (node == null) {
+            throw new IllegalArgumentException("根节点为空，不存在最大节点");
+        }
+        while (node.right != null) {
+            node = node.right;
+        }
+        return node;
+    }
+
+    public static void main(String[] args) {
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        tree.addRecursive(9);
+        tree.addRecursive(3);
+        tree.addRecursive(6);
+        tree.addRecursive(1);
+        tree.addRecursive(4);
+        tree.addRecursive(7);
+        tree.addRecursive(14);
+        tree.addRecursive(12);
+        tree.addRecursive(18);
+        tree.addRecursive(16);
+
+        tree.remove(3);
+        System.out.println("test");
     }
 }

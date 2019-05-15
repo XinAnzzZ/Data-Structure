@@ -1,7 +1,5 @@
 package com.alibaba.xinan;
 
-import org.junit.Test;
-
 import java.util.Random;
 
 /**
@@ -12,7 +10,7 @@ public class MainTest {
 
     public static void main(String[] args) {
         int[] arr = {20, 10, 30, 5, 17, 28, 32, 34, 29, 18, 13, 8, 3, 9, 11};
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        BinarySearchTree2<Integer> tree = new BinarySearchTree2<>();
         for (int i : arr) {
             tree.add(i);
         }
@@ -22,9 +20,8 @@ public class MainTest {
 
     }
 
-    @Test
     public void testRemoveMin() {
-        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        BinarySearchTree2<Integer> bst = new BinarySearchTree2<>();
 
         Random random = new Random();
         for (int i = 0; i < 10; i++) {

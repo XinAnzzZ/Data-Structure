@@ -6,10 +6,10 @@ package com.alibaba.xinan;
  */
 public class BinarySearchTreeSet<E extends Comparable<E>> implements Set<E> {
 
-    private BinarySearchTree<E> tree;
+    private BinarySearchTree2<E> tree;
 
     public BinarySearchTreeSet() {
-        tree = new BinarySearchTree<>();
+        tree = new BinarySearchTree2<>();
     }
 
     @Override
